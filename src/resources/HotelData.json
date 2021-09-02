@@ -1,0 +1,35 @@
+{
+  "Lakewood": {
+    "rate": 3,
+    "regular": {
+      "weekday": 110,
+      "weekend": 90
+    },
+    "reward": {
+      "weekday": 80,
+      "weekend": 80
+    }
+  },
+  "Bridgewood": {
+    "rate": 4,
+    "regular": {
+      "weekday": 160,
+      "weekend": 60
+    },
+    "reward": {
+      "weekday": 110,
+      "weekend": 50
+    },
+    "Ridgewood": {
+      "rate": 5,
+      "regular": {
+        "weekday": 220,
+        "weekend": 150
+      },
+      "reward": {
+        "weekday": 100,
+        "weekend": 40
+      }
+    }
+  }
+}
