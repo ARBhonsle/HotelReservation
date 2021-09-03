@@ -12,10 +12,10 @@ public class HotelReservation {
         System.out.println("Welcome to Hotel Reservation!");
         HotelService hotelService = new HotelService();
         hotel = new Hotel("Lakewood", 110.0, 90.0);
-        hotelService.addHotel(hotel);
+        hotelService.addHotel(hotel.getHotelName(),hotel);
         hotel = new Hotel("Bridgewood", 160.0,60.0);
-        hotelService.addHotel(hotel);
+        hotelService.addHotel(hotel.getHotelName(),hotel);
         hotel = new Hotel("Ridgewood",220.0,100.0);
-        hotelService.addHotel(hotel);
+        hotelService.addHotel(hotel.getHotelName(),hotel);
     }
 }

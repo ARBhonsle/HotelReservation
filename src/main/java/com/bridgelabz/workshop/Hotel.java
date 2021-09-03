@@ -15,6 +15,10 @@ public class Hotel {
         this.regularWeekdayRate = regularWeekdayRate;
     }
 
+    public void setRegularWeekendRate(Double regularWeekendRate) {
+        this.regularWeekendRate = regularWeekendRate;
+    }
+
     public void setHotelName(String hotelName) {
         this.hotelName = hotelName;
     }
@@ -25,5 +29,9 @@ public class Hotel {
 
     public Double getRegularWeekdayRate() {
         return regularWeekdayRate;
+    }
+
+    public Double getRegularWeekendRate() {
+        return regularWeekendRate;
     }
 }
