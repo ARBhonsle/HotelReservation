@@ -109,4 +109,40 @@ public class HotelService {
     public Integer starRating(String hotelName) {
         return hotelDetails.get(hotelName).getStarRating();
     }
+
+    // find Best Rated Hotel
+    // find the cheapest hotel for given day
+    public String getBestRatedHotel() {
+        Integer starRate = -1;
+        String hotelName = null;
+        for (Hotel hotel : hotelDetails.values()) {
+            if (hotel.getStarRating() > starRate) {
+                starRate = hotel.getStarRating();
+                hotelName = hotel.getHotelName();
+            }
+        }
+        return hotelName;
+    }
+
+    // find total amount for date range for best rated hotel
+    public double findBestRatedHotel(String startDate, String endDate) throws ParseException {
+        LocalDate dateStart = LocalDate.parse(startDate);
+        LocalDate dateEnd = LocalDate.parse(endDate);
+        long noOfDays = ChronoUnit.DAYS.between(dateStart, dateEnd) + 1;
+        double sum = 0;
+        int day = getDayFromDate(dateStart.toString());
+        for (int i = 0; i < noOfDays; i++) {
+            if (day > 0 && day < 6) {
+                sum += hotelDetails.get(getBestRatedHotel()).getHotelWeekdayRates();
+            } else {
+                sum += hotelDetails.get(getBestRatedHotel()).getHotelWeekendRates();
+            }
+            if (day == 6) {
+                day = 0;
+            } else {
+                day++;
+            }
+        }
+        return sum;
+    }
 }

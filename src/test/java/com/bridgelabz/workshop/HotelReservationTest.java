@@ -84,4 +84,19 @@ public class HotelReservationTest {
         assertTrue(hotelService.starRating("Bridgewood") == 4);
         assertTrue(hotelService.starRating("Ridgewood") == 5);
     }
+
+    @Test
+    public void findBestRatedHotel_returnsTotalAmount() throws Exception {
+        HotelService hotelService = new HotelService();
+        hotelService.addHotel("Lakewood", new Hotel("Lakewood", "REGULAR", 110.0, 90.0, 3));
+        hotelService.addHotel("Bridgewood", new Hotel("Bridgewood", "REGULAR", 150.0, 50.0, 4));
+        hotelService.addHotel("Ridgewood", new Hotel("Ridgewood", "REGULAR", 220.0, 150.0, 5));
+        String hotel = hotelService.getBestRatedHotel();
+        System.out.println("Cheapest Hotel for 11/09/2020 : " + hotel);
+        assertEquals(hotel, "Ridgewood");
+        hotel = hotelService.getBestRatedHotel();
+        System.out.println("Cheapest Hotel for 12/09/2020 : " + hotel);
+        assertEquals(hotel, "Ridgewood");
+        assertTrue(hotelService.findBestRatedHotel("2020-09-11", "2020-09-12") == 370);
+    }
 }
