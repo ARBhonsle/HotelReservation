@@ -1,37 +1,36 @@
 package com.bridgelabz.workshop;
 
 public class Hotel {
-    String hotelName;
-    Double regularWeekdayRate;
-    Double regularWeekendRate;
+    String hotelName, customerType;
+    Double hotelRates;
 
-    public Hotel(String hotelName, Double regularWeekdayRate, Double regularWeekendRate) {
+    public Hotel(String hotelName, String type, Double hotelRates) {
         this.hotelName = hotelName;
-        this.regularWeekdayRate = regularWeekdayRate;
-        this.regularWeekendRate =regularWeekendRate;
-    }
-
-    public void setRegularWeekdayRate(Double regularWeekdayRate) {
-        this.regularWeekdayRate = regularWeekdayRate;
-    }
-
-    public void setRegularWeekendRate(Double regularWeekendRate) {
-        this.regularWeekendRate = regularWeekendRate;
+        this.hotelRates = hotelRates;
+        this.customerType=type;
     }
 
     public void setHotelName(String hotelName) {
         this.hotelName = hotelName;
     }
 
+    public void setHotelRates(Double hotelRates) {
+        this.hotelRates = hotelRates;
+    }
+
+    public void setCustomerType(String customerType) {
+        this.customerType = customerType;
+    }
+
     public String getHotelName() {
         return hotelName;
     }
 
-    public Double getRegularWeekdayRate() {
-        return regularWeekdayRate;
+    public Double getHotelRates() {
+        return hotelRates;
     }
 
-    public Double getRegularWeekendRate() {
-        return regularWeekendRate;
+    public String getCustomerType() {
+        return customerType;
     }
 }

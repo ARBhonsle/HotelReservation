@@ -8,14 +8,15 @@ import java.util.Scanner;
 public class HotelReservation {
     static Hotel hotel;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         System.out.println("Welcome to Hotel Reservation!");
         HotelService hotelService = new HotelService();
-        hotel = new Hotel("Lakewood", 110.0, 90.0);
+        hotel = new Hotel("Lakewood","REGULAR", 110.0);
         hotelService.addHotel(hotel.getHotelName(),hotel);
-        hotel = new Hotel("Bridgewood", 160.0,60.0);
+        hotel = new Hotel("Bridgewood", "REGULAR",160.0);
         hotelService.addHotel(hotel.getHotelName(),hotel);
-        hotel = new Hotel("Ridgewood",220.0,100.0);
+        hotel = new Hotel("Ridgewood","REGULAR",220.0);
         hotelService.addHotel(hotel.getHotelName(),hotel);
     }
+
 }

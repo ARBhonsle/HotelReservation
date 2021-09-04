@@ -1,29 +1,66 @@
 package com.bridgelabz.workshop;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class HotelService {
-    private Hashtable<String,Hotel> hotelDetails;
+    private Map<String, Hotel> hotelDetails;
 
-    public HotelService(){
-        hotelDetails = new Hashtable<>();
+    public HotelService() {
+        hotelDetails = new LinkedHashMap<>();
+    }
+    // add hotel to list
+    public void addHotel(String hotelName, Hotel hotel) throws Exception {
+        if(validateDetails(hotelName, hotel.getCustomerType())){
+            hotelDetails.put(hotelName, hotel);
+        }
+    }
+    // UC1 ....
+    private boolean validateDetails(String hotelName, String customerType) throws Exception {
+        if( hotelDetails.get(hotelName)== null ){
+            return true;
+        }
+        if (hotelDetails.get(hotelName).getHotelName() == hotelName && hotelDetails.get(hotelName).getCustomerType() == customerType) {
+            throw new Exception("Hotel already exist for this type of customer");
+        }
+        return false;
+    }
+    // find the cheapest hotel for given day
+    public String getCheapestHotel(int day) {
+        StringBuilder hotelName= new StringBuilder();
+        Double minRates = Double.MAX_VALUE, hotelRate;
+        if (day > 0 && day < 6) {
+            System.out.println("Weekday");
+        } else {
+            System.out.println("Weekend");
+        }
+        for (Hotel hotel : hotelDetails.values()) {
+            hotelRate = hotel.getHotelRates();
+            if (minRates > hotelRate) {
+                minRates = hotelRate;
+                hotelName.append(hotel.getHotelName());
+            }
+        }
+        return hotelName.toString();
     }
 
-    public void addHotel(String hotelName, Hotel hotel){
-        hotelDetails.put(hotelName,hotel);
-    }
-
-    public Hotel getHotel(String hotelName){
+    public Hotel getHotel(String hotelName) {
         return hotelDetails.get(hotelName);
     }
 
-    public String display(){
+    public String display() {
         StringBuilder displayHotel = new StringBuilder();
-        for(String hotelName: hotelDetails.keySet()){
-            displayHotel.append("Hotel Name: ").append(getHotel(hotelName));
+        for (String hotelName : hotelDetails.keySet()) {
+            displayHotel.append("Hotel: ").append(getHotel(hotelName));
         }
         return displayHotel.toString();
+    }
+
+    // convert given date to day of week
+    public int getDayFromDate(String date) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        int day = simpleDateFormat.parse(date).getDay();
+        return day;
     }
 }
