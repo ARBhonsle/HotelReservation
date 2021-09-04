@@ -12,17 +12,15 @@ public class HotelService {
     public HotelService() {
         hotelDetails = new LinkedHashMap<>();
     }
-
     // add hotel to list
     public void addHotel(String hotelName, Hotel hotel) throws Exception {
-        if (validateDetails(hotelName, hotel.getCustomerType())) {
+        if(validateDetails(hotelName, hotel.getCustomerType())){
             hotelDetails.put(hotelName, hotel);
         }
     }
-
-    // UC1 ....
+    //validate entered details
     private boolean validateDetails(String hotelName, String customerType) throws Exception {
-        if (hotelDetails.get(hotelName) == null) {
+        if( hotelDetails.get(hotelName)== null ){
             return true;
         }
         if (hotelDetails.get(hotelName).getHotelName() == hotelName && hotelDetails.get(hotelName).getCustomerType() == customerType) {
@@ -30,18 +28,24 @@ public class HotelService {
         }
         return false;
     }
-
     // find the cheapest hotel for given day
     public String getCheapestHotel(int day) {
-        StringBuilder hotelName = new StringBuilder();
+        StringBuilder hotelName= new StringBuilder();
         Double minRates = Double.MAX_VALUE, hotelRate;
+        boolean isWeekDay;
         if (day > 0 && day < 6) {
             System.out.println("Weekday");
+            isWeekDay=true;
         } else {
             System.out.println("Weekend");
+            isWeekDay=false;
         }
         for (Hotel hotel : hotelDetails.values()) {
-            hotelRate = hotel.getHotelRates();
+            if(isWeekDay){
+                hotelRate = hotel.getHotelWeekdayRates();
+            }else{
+                hotelRate = hotel.getHotelWeekendRates();
+            }
             if (minRates > hotelRate) {
                 minRates = hotelRate;
                 hotelName.append(hotel.getHotelName());
@@ -64,16 +68,22 @@ public class HotelService {
 
     // convert given date to day of week
     public int getDayFromDate(String date) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         int day = simpleDateFormat.parse(date).getDay();
         return day;
     }
-
+    // cheapest hotel total price for given date range
     public double cheapestForGivenDateRange(String fromDate, String toDate) throws ParseException {
         LocalDate dateStart = LocalDate.parse(fromDate);
         LocalDate dateEnd = LocalDate.parse(toDate);
         long noOfDays = ChronoUnit.DAYS.between(dateStart, dateEnd) + 1;
-        double totalSum = noOfDays * hotelDetails.get(getCheapestHotel(getDayFromDate(dateStart.toString()))).getHotelRates();
-        return totalSum;
+        int day = getDayFromDate(dateStart.toString());
+        double sum;
+        if(day>0 && day<6){
+            sum = hotelDetails.get(getCheapestHotel(day)).getHotelWeekdayRates();
+        } else{
+            sum = hotelDetails.get(getCheapestHotel(day)).getHotelWeekendRates();
+        }
+        return noOfDays*sum;
     }
 }
