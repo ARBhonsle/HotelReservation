@@ -2,6 +2,8 @@ package com.bridgelabz.workshop;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class HotelService {
@@ -10,15 +12,17 @@ public class HotelService {
     public HotelService() {
         hotelDetails = new LinkedHashMap<>();
     }
+
     // add hotel to list
     public void addHotel(String hotelName, Hotel hotel) throws Exception {
-        if(validateDetails(hotelName, hotel.getCustomerType())){
+        if (validateDetails(hotelName, hotel.getCustomerType())) {
             hotelDetails.put(hotelName, hotel);
         }
     }
+
     // UC1 ....
     private boolean validateDetails(String hotelName, String customerType) throws Exception {
-        if( hotelDetails.get(hotelName)== null ){
+        if (hotelDetails.get(hotelName) == null) {
             return true;
         }
         if (hotelDetails.get(hotelName).getHotelName() == hotelName && hotelDetails.get(hotelName).getCustomerType() == customerType) {
@@ -26,9 +30,10 @@ public class HotelService {
         }
         return false;
     }
+
     // find the cheapest hotel for given day
     public String getCheapestHotel(int day) {
-        StringBuilder hotelName= new StringBuilder();
+        StringBuilder hotelName = new StringBuilder();
         Double minRates = Double.MAX_VALUE, hotelRate;
         if (day > 0 && day < 6) {
             System.out.println("Weekday");
@@ -59,8 +64,16 @@ public class HotelService {
 
     // convert given date to day of week
     public int getDayFromDate(String date) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         int day = simpleDateFormat.parse(date).getDay();
         return day;
+    }
+
+    public double cheapestForGivenDateRange(String fromDate, String toDate) throws ParseException {
+        LocalDate dateStart = LocalDate.parse(fromDate);
+        LocalDate dateEnd = LocalDate.parse(toDate);
+        long noOfDays = ChronoUnit.DAYS.between(dateStart, dateEnd) + 1;
+        double totalSum = noOfDays * hotelDetails.get(getCheapestHotel(getDayFromDate(dateStart.toString()))).getHotelRates();
+        return totalSum;
     }
 }

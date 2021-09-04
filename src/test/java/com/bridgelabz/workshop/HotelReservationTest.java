@@ -36,12 +36,14 @@ public class HotelReservationTest {
         hotelService.addHotel("Bridgewood",new Hotel("Bridgewood", "REGULAR",160.0));
         hotelService.addHotel("Ridgewood",new Hotel("Ridgewood","REGULAR",  220.0));
         hotelService.display();
-        String hotel = hotelService.getCheapestHotel(hotelService.getDayFromDate("10/09/2020"));
+        String hotel = hotelService.getCheapestHotel(hotelService.getDayFromDate("2020-09-10"));
         System.out.println("Cheapest Hotel for 10/09/2020 : "+hotel);
         assertEquals(hotel,"Lakewood");
-        hotel = hotelService.getCheapestHotel(hotelService.getDayFromDate("11/09/2020"));
+        hotel = hotelService.getCheapestHotel(hotelService.getDayFromDate("2020-09-11"));
         System.out.println("Cheapest Hotel for 10/09/2020 : "+hotel);
         assertEquals(hotel,"Lakewood");
+        double totalAmount = hotelService.cheapestForGivenDateRange("2020-09-10","2020-09-11");
+        assertEquals(totalAmount==220.0,true);
     }
 
 }
