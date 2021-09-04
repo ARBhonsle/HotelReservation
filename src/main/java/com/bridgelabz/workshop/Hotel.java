@@ -2,11 +2,11 @@ package com.bridgelabz.workshop;
 
 public class Hotel {
     String hotelName, customerType;
-    Double hotelWeekdayRates,hotelWeekendRates;
+    Double hotelWeekdayRates, hotelWeekendRates;
 
-    public Hotel(String hotelName, String type, Double weekdayRate,Double weekendRate) {
+    public Hotel(String hotelName, String type, Double weekdayRate, Double weekendRate) {
         this.hotelName = hotelName;
-        this.customerType=type;
+        this.customerType = type;
         this.hotelWeekdayRates = weekdayRate;
         this.hotelWeekendRates = weekendRate;
     }
