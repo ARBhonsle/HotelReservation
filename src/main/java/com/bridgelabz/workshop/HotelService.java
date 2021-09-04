@@ -2,6 +2,8 @@ package com.bridgelabz.workshop;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class HotelService {
@@ -16,7 +18,7 @@ public class HotelService {
             hotelDetails.put(hotelName, hotel);
         }
     }
-    // UC1 ....
+    //validate entered details
     private boolean validateDetails(String hotelName, String customerType) throws Exception {
         if( hotelDetails.get(hotelName)== null ){
             return true;
@@ -30,13 +32,20 @@ public class HotelService {
     public String getCheapestHotel(int day) {
         StringBuilder hotelName= new StringBuilder();
         Double minRates = Double.MAX_VALUE, hotelRate;
+        boolean isWeekDay;
         if (day > 0 && day < 6) {
             System.out.println("Weekday");
+            isWeekDay=true;
         } else {
             System.out.println("Weekend");
+            isWeekDay=false;
         }
         for (Hotel hotel : hotelDetails.values()) {
-            hotelRate = hotel.getHotelRates();
+            if(isWeekDay){
+                hotelRate = hotel.getHotelWeekdayRates();
+            }else{
+                hotelRate = hotel.getHotelWeekendRates();
+            }
             if (minRates > hotelRate) {
                 minRates = hotelRate;
                 hotelName.append(hotel.getHotelName());
@@ -62,5 +71,19 @@ public class HotelService {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         int day = simpleDateFormat.parse(date).getDay();
         return day;
+    }
+    // cheapest hotel total price for given date range
+    public double cheapestForGivenDateRange(String fromDate, String toDate) throws ParseException {
+        LocalDate dateStart = LocalDate.parse(fromDate);
+        LocalDate dateEnd = LocalDate.parse(toDate);
+        long noOfDays = ChronoUnit.DAYS.between(dateStart, dateEnd) + 1;
+        int day = getDayFromDate(dateStart.toString());
+        double sum;
+        if(day>0 && day<6){
+            sum = hotelDetails.get(getCheapestHotel(day)).getHotelWeekdayRates();
+        } else{
+            sum = hotelDetails.get(getCheapestHotel(day)).getHotelWeekendRates();
+        }
+        return noOfDays*sum;
     }
 }
