@@ -11,11 +11,11 @@ public class HotelReservation {
     public static void main(String[] args) throws Exception {
         System.out.println("Welcome to Hotel Reservation!");
         HotelService hotelService = new HotelService();
-        hotel = new Hotel("Lakewood","REGULAR", 110.0);
+        hotel = new Hotel("Lakewood","REGULAR", 110.0,90.0);
         hotelService.addHotel(hotel.getHotelName(),hotel);
-        hotel = new Hotel("Bridgewood", "REGULAR",160.0);
+        hotel = new Hotel("Bridgewood", "REGULAR",150.0,50.0);
         hotelService.addHotel(hotel.getHotelName(),hotel);
-        hotel = new Hotel("Ridgewood","REGULAR",220.0);
+        hotel = new Hotel("Ridgewood","REGULAR",220.0,150.0);
         hotelService.addHotel(hotel.getHotelName(),hotel);
     }
 
