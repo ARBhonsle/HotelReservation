@@ -33,7 +33,7 @@ public class HotelService {
     }
 
     // find the cheapest hotel for given day
-    public String getCheapestHotel(int day) {
+    public String getCheapestBestRatedHotel(int day) {
         Double minRates = Double.MAX_VALUE, hotelRate;
         boolean isWeekDay;
         if (day > 0 && day < 6) {
@@ -52,15 +52,21 @@ public class HotelService {
             if (minRates > hotelRate) {
                 minRates = hotelRate;
                 hotelName = hotel.getHotelName();
+            } else if (minRates.equals(hotelRate)) {
+                if (hotel.getStarRating() > hotelDetails.get(hotelName).getStarRating()) {
+                    hotelName = hotel.getHotelName();
+                }
             }
         }
         return hotelName;
     }
 
+    // returns hotel value using hotelName key
     public Hotel getHotel(String hotelName) {
         return hotelDetails.get(hotelName);
     }
 
+    // display hotel object
     public String display() {
         StringBuilder displayHotel = new StringBuilder();
         for (String hotelName : hotelDetails.keySet()) {
@@ -77,7 +83,7 @@ public class HotelService {
     }
 
     // cheapest hotel total price for given date range
-    public double cheapestForGivenDateRange(String fromDate, String toDate) throws ParseException {
+    public double cheapestBestRatedHotelForGivenDateRange(String fromDate, String toDate) throws ParseException {
         LocalDate dateStart = LocalDate.parse(fromDate);
         LocalDate dateEnd = LocalDate.parse(toDate);
         double sum = 0;
@@ -85,9 +91,9 @@ public class HotelService {
         int day = getDayFromDate(dateStart.toString());
         for (int i = 0; i < noOfDays; i++) {
             if (day > 0 && day < 6) {
-                sum += hotelDetails.get(getCheapestHotel(day)).getHotelWeekdayRates();
+                sum += hotelDetails.get(getCheapestBestRatedHotel(day)).getHotelWeekdayRates();
             } else {
-                sum += hotelDetails.get(getCheapestHotel(day)).getHotelWeekendRates();
+                sum += hotelDetails.get(getCheapestBestRatedHotel(day)).getHotelWeekendRates();
             }
             if (day == 6) {
                 day = 0;
@@ -99,7 +105,8 @@ public class HotelService {
         return sum;
     }
 
-    public Integer starRating(String hotelName){
+    // returns star rating of hotel
+    public Integer starRating(String hotelName) {
         return hotelDetails.get(hotelName).getStarRating();
     }
 }

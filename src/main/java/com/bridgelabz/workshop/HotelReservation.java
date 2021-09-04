@@ -1,7 +1,5 @@
 package com.bridgelabz.workshop;
 
-import java.util.Scanner;
-
 /**
  * Hotel Reservation Project
  */

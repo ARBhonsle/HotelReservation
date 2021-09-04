@@ -2,10 +2,6 @@ package com.bridgelabz.workshop;
 
 import org.junit.Test;
 
-import javax.xml.crypto.Data;
-
-import java.text.ParseException;
-
 import static org.junit.Assert.*;
 
 /**
@@ -20,9 +16,9 @@ public class HotelReservationTest {
         HotelService hotelService = new HotelService();
         Hotel hotel1 = new Hotel("Lakewood", "REGULAR", 110.0, 90.0, 3);
         hotelService.addHotel(hotel1.getHotelName(), hotel1);
-        Hotel hotel2 = new Hotel("Bridgewood", "REGULAR", 150.0, 50.0,4);
+        Hotel hotel2 = new Hotel("Bridgewood", "REGULAR", 150.0, 50.0, 4);
         hotelService.addHotel(hotel2.getHotelName(), hotel2);
-        Hotel hotel3 = new Hotel("Ridgewood", "REGULAR", 220.0, 150.0,5);
+        Hotel hotel3 = new Hotel("Ridgewood", "REGULAR", 220.0, 150.0, 5);
         hotelService.addHotel(hotel3.getHotelName(), hotel3);
         hotelService.display();
         assertEquals(hotelService.getHotel(hotel1.getHotelName()), hotel1);
@@ -31,30 +27,30 @@ public class HotelReservationTest {
     }
 
     @Test
-    public void findCheapestHotel_usingGivenDates() throws Exception {
+    public void findCheapestBestRatedHotel_usingGivenDates() throws Exception {
         HotelService hotelService = new HotelService();
-        hotelService.addHotel("Lakewood", new Hotel("Lakewood", "REGULAR", 110.0, 90.0,3));
-        hotelService.addHotel("Bridgewood", new Hotel("Bridgewood", "REGULAR", 150.0, 50.0,4));
-        hotelService.addHotel("Ridgewood", new Hotel("Ridgewood", "REGULAR", 220.0, 150.0,5));
+        hotelService.addHotel("Lakewood", new Hotel("Lakewood", "REGULAR", 110.0, 90.0, 3));
+        hotelService.addHotel("Bridgewood", new Hotel("Bridgewood", "REGULAR", 150.0, 50.0, 4));
+        hotelService.addHotel("Ridgewood", new Hotel("Ridgewood", "REGULAR", 220.0, 150.0, 5));
         hotelService.display();
-        String hotel = hotelService.getCheapestHotel(hotelService.getDayFromDate("2020-09-10"));
+        String hotel = hotelService.getCheapestBestRatedHotel(hotelService.getDayFromDate("2020-09-10"));
         System.out.println("Cheapest Hotel for 10/09/2020 : " + hotel);
         assertEquals(hotel, "Lakewood");
-        hotel = hotelService.getCheapestHotel(hotelService.getDayFromDate("2020-09-11"));
+        hotel = hotelService.getCheapestBestRatedHotel(hotelService.getDayFromDate("2020-09-11"));
         System.out.println("Cheapest Hotel for 11/09/2020 : " + hotel);
         assertEquals(hotel, "Lakewood");
-        double totalAmount = hotelService.cheapestForGivenDateRange("2020-09-10", "2020-09-11");
+        double totalAmount = hotelService.cheapestBestRatedHotelForGivenDateRange("2020-09-10", "2020-09-11");
         assertEquals(totalAmount == 220.0, true);
     }
 
     @Test
     public void addWeekdayAndWeekEnd_checksHotelDetails() throws Exception {
         HotelService hotelService = new HotelService();
-        Hotel hotel1 = new Hotel("Lakewood", "REGULAR", 110.0, 90.0,3);
+        Hotel hotel1 = new Hotel("Lakewood", "REGULAR", 110.0, 90.0, 3);
         hotelService.addHotel(hotel1.getHotelName(), hotel1);
-        Hotel hotel2 = new Hotel("Bridgewood", "REGULAR", 150.0, 50.0,4);
+        Hotel hotel2 = new Hotel("Bridgewood", "REGULAR", 150.0, 50.0, 4);
         hotelService.addHotel(hotel2.getHotelName(), hotel2);
-        Hotel hotel3 = new Hotel("Ridgewood", "REGULAR", 220.0, 150.0,5);
+        Hotel hotel3 = new Hotel("Ridgewood", "REGULAR", 220.0, 150.0, 5);
         hotelService.addHotel(hotel3.getHotelName(), hotel3);
         hotelService.display();
         assertEquals(hotelService.getHotel(hotel1.getHotelName()), hotel1);
@@ -63,29 +59,29 @@ public class HotelReservationTest {
     }
 
     @Test
-    public void findCheapestHotel_afterWeekdayAndWeekend_usingGivenDates() throws Exception {
+    public void findCheapestBestRatedHotel_afterWeekdayAndWeekend_usingGivenDates() throws Exception {
         HotelService hotelService = new HotelService();
-        hotelService.addHotel("Lakewood", new Hotel("Lakewood", "REGULAR", 110.0, 90.0,3));
-        hotelService.addHotel("Bridgewood", new Hotel("Bridgewood", "REGULAR", 150.0, 50.0,4));
-        hotelService.addHotel("Ridgewood", new Hotel("Ridgewood", "REGULAR", 220.0, 150.0,5));
-        String hotel = hotelService.getCheapestHotel(hotelService.getDayFromDate("2020-09-11"));
+        hotelService.addHotel("Lakewood", new Hotel("Lakewood", "REGULAR", 110.0, 90.0, 3));
+        hotelService.addHotel("Bridgewood", new Hotel("Bridgewood", "REGULAR", 150.0, 50.0, 4));
+        hotelService.addHotel("Ridgewood", new Hotel("Ridgewood", "REGULAR", 220.0, 150.0, 5));
+        String hotel = hotelService.getCheapestBestRatedHotel(hotelService.getDayFromDate("2020-09-11"));
         System.out.println("Cheapest Hotel for 11/09/2020 : " + hotel);
         assertEquals(hotel, "Lakewood");
-        hotel = hotelService.getCheapestHotel(hotelService.getDayFromDate("2020-09-12"));
+        hotel = hotelService.getCheapestBestRatedHotel(hotelService.getDayFromDate("2020-09-12"));
         System.out.println("Cheapest Hotel for 12/09/2020 : " + hotel);
         assertEquals(hotel, "Bridgewood");
-        double totalAmount = hotelService.cheapestForGivenDateRange("2020-09-11", "2020-09-12");
+        double totalAmount = hotelService.cheapestBestRatedHotelForGivenDateRange("2020-09-11", "2020-09-12");
         assertEquals(totalAmount == 160.0, true);
     }
 
     @Test
     public void checkStarRating_returnsTrue() throws Exception {
         HotelService hotelService = new HotelService();
-        hotelService.addHotel("Lakewood", new Hotel("Lakewood", "REGULAR", 110.0, 90.0,3));
-        hotelService.addHotel("Bridgewood", new Hotel("Bridgewood", "REGULAR", 150.0, 50.0,4));
-        hotelService.addHotel("Ridgewood", new Hotel("Ridgewood", "REGULAR", 220.0, 150.0,5));
-        assertTrue(hotelService.starRating("Lakewood")==3);
-        assertTrue(hotelService.starRating("Bridgewood")==4);
-        assertTrue(hotelService.starRating("Ridgewood")==5);
+        hotelService.addHotel("Lakewood", new Hotel("Lakewood", "REGULAR", 110.0, 90.0, 3));
+        hotelService.addHotel("Bridgewood", new Hotel("Bridgewood", "REGULAR", 150.0, 50.0, 4));
+        hotelService.addHotel("Ridgewood", new Hotel("Ridgewood", "REGULAR", 220.0, 150.0, 5));
+        assertTrue(hotelService.starRating("Lakewood") == 3);
+        assertTrue(hotelService.starRating("Bridgewood") == 4);
+        assertTrue(hotelService.starRating("Ridgewood") == 5);
     }
 }
