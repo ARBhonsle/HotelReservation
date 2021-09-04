@@ -98,4 +98,8 @@ public class HotelService {
         System.out.println(sum);
         return sum;
     }
+
+    public Integer starRating(String hotelName){
+        return hotelDetails.get(hotelName).getStarRating();
+    }
 }
