@@ -2,8 +2,8 @@ package com.bridgelabz.workshop;
 
 public class Hotel {
     HotelKey key;
-    Double hotelRegularWeekdayRates, hotelRegularWeekendRates;
-    Double hotelRewardWeekdayRates, hotelRewardWeekendRates;
+    static Double hotelRegularWeekdayRates, hotelRegularWeekendRates;
+    static Double hotelRewardWeekdayRates, hotelRewardWeekendRates;
     Integer starRating;
 
     public Hotel(HotelKey key, Double weekdayRate, Double weekendRate, Integer starRating) {

@@ -21,7 +21,7 @@ public class HotelService {
         }
     }
 
-    public Collection<Hotel> getHotelList(){
+    public Collection<Hotel> getHotelList() {
         return hotelDetails.values();
     }
 
@@ -37,8 +37,8 @@ public class HotelService {
     }
 
     // find the cheapest hotel for given day
-    public HotelKey getCheapestBestRatedHotel(int day) {
-        Double minRates = Double.MAX_VALUE, hotelRate;
+    public HotelKey getCheapestBestRatedHotel(int day, boolean isRegular) {
+        Double minRates = Double.MAX_VALUE, hotelRate = null;
         boolean isWeekDay;
         if (day > 0 && day < 6) {
             System.out.println("Weekday");
@@ -47,18 +47,26 @@ public class HotelService {
             System.out.println("Weekend");
             isWeekDay = false;
         }
-        for (Hotel hotel : hotelDetails.values()) {
+        for (HotelKey hotelKey : hotelDetails.keySet()) {
             if (isWeekDay) {
-                hotelRate = hotel.getHotelRegularWeekdayRates();
+                if (isRegular) {
+                    hotelRate = hotelDetails.get(hotelKey).getHotelRegularWeekdayRates();
+                } else {
+                    hotelRate = hotelDetails.get(hotelKey).getHotelRewardWeekdayRates();
+                }
             } else {
-                hotelRate = hotel.getHotelRegularWeekendRates();
+                if (isRegular) {
+                    hotelRate = hotelDetails.get(hotelKey).getHotelRegularWeekendRates();
+                } else {
+                    hotelRate = hotelDetails.get(hotelKey).getHotelRewardWeekendRates();
+                }
             }
             if (minRates > hotelRate) {
                 minRates = hotelRate;
-                key = hotel.getKey();
+                key = hotelKey;
             } else if (minRates.equals(hotelRate)) {
-                if (hotel.getStarRating() > hotelDetails.get(key).getStarRating()) {
-                    key = hotel.getKey();
+                if (hotelDetails.get(hotelKey).getStarRating() > hotelDetails.get(key).getStarRating()) {
+                    key = hotelKey;
                 }
             }
         }
@@ -87,7 +95,7 @@ public class HotelService {
     }
 
     // cheapest hotel total price for given date range
-    public double cheapestBestRatedHotelForGivenDateRange(String fromDate, String toDate) throws ParseException {
+    public double cheapestBestRatedHotelForGivenDateRange(String fromDate, String toDate, boolean isRegular) throws ParseException {
         LocalDate dateStart = LocalDate.parse(fromDate);
         LocalDate dateEnd = LocalDate.parse(toDate);
         double sum = 0;
@@ -95,9 +103,17 @@ public class HotelService {
         int day = getDayFromDate(dateStart.toString());
         for (int i = 0; i < noOfDays; i++) {
             if (day > 0 && day < 6) {
-                sum += hotelDetails.get(getCheapestBestRatedHotel(day)).getHotelRegularWeekdayRates();
+                if (isRegular) {
+                    sum += hotelDetails.get(getCheapestBestRatedHotel(day, isRegular)).getHotelRegularWeekdayRates();
+                } else {
+                    sum += hotelDetails.get(getCheapestBestRatedHotel(day, isRegular)).getHotelRewardWeekdayRates();
+                }
             } else {
-                sum += hotelDetails.get(getCheapestBestRatedHotel(day)).getHotelRegularWeekendRates();
+                if (isRegular) {
+                    sum += hotelDetails.get(getCheapestBestRatedHotel(day, isRegular)).getHotelRegularWeekendRates();
+                } else {
+                    sum += hotelDetails.get(getCheapestBestRatedHotel(day, isRegular)).getHotelRewardWeekendRates();
+                }
             }
             if (day == 6) {
                 day = 0;
@@ -105,13 +121,12 @@ public class HotelService {
                 day++;
             }
         }
-        System.out.println(sum);
         return sum;
     }
 
     // returns star rating of hotel
-    public Integer starRating(String hotelName) {
-        return hotelDetails.get(hotelName).getStarRating();
+    public Integer starRating(HotelKey key) {
+        return hotelDetails.get(key).getStarRating();
     }
 
     // find Best Rated Hotel

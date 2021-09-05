@@ -33,13 +33,13 @@ public class HotelReservationTest {
         hotelService.addHotel(new HotelKey("Bridgewood", "REGULAR"), new Hotel(new HotelKey("Bridgewood", "REGULAR"), 150.0, 50.0, 4));
         hotelService.addHotel(new HotelKey("Ridgewood", "REGULAR"), new Hotel(new HotelKey("Ridgewood", "REGULAR"), 220.0, 150.0, 5));
         hotelService.display();
-        HotelKey hotelKey = hotelService.getCheapestBestRatedHotel(hotelService.getDayFromDate("2020-09-10"));
+        HotelKey hotelKey = hotelService.getCheapestBestRatedHotel(hotelService.getDayFromDate("2020-09-10"),true);
         System.out.println("Cheapest Hotel for 10/09/2020 : " + hotelKey);
         assertEquals(hotelKey, "Lakewood");
-        hotelKey = hotelService.getCheapestBestRatedHotel(hotelService.getDayFromDate("2020-09-11"));
+        hotelKey = hotelService.getCheapestBestRatedHotel(hotelService.getDayFromDate("2020-09-11"),true);
         System.out.println("Cheapest Hotel for 11/09/2020 : " + hotelKey);
         assertEquals(hotelKey.getHotelName(), "Lakewood");
-        double totalAmount = hotelService.cheapestBestRatedHotelForGivenDateRange("2020-09-10", "2020-09-11");
+        double totalAmount = hotelService.cheapestBestRatedHotelForGivenDateRange("2020-09-10", "2020-09-11",true);
         assertEquals(totalAmount == 220.0, true);
     }
 
@@ -64,13 +64,13 @@ public class HotelReservationTest {
         hotelService.addHotel(new HotelKey("Lakewood", "REGULAR"), new Hotel(new HotelKey("Lakewood", "REGULAR"), 110.0, 90.0, 3));
         hotelService.addHotel(new HotelKey("Bridgewood", "REGULAR"), new Hotel(new HotelKey("Bridgewood", "REGULAR"), 150.0, 50.0, 4));
         hotelService.addHotel(new HotelKey("Ridgewood", "REGULAR"), new Hotel(new HotelKey("Ridgewood", "REGULAR"), 220.0, 150.0, 5));
-        HotelKey hotelKey = hotelService.getCheapestBestRatedHotel(hotelService.getDayFromDate("2020-09-11"));
+        HotelKey hotelKey = hotelService.getCheapestBestRatedHotel(hotelService.getDayFromDate("2020-09-11"),true);
         System.out.println("Cheapest Hotel for 11/09/2020 : " + hotelKey);
         assertEquals(hotelKey.getHotelName(), "Lakewood");
-        hotelKey = hotelService.getCheapestBestRatedHotel(hotelService.getDayFromDate("2020-09-12"));
+        hotelKey = hotelService.getCheapestBestRatedHotel(hotelService.getDayFromDate("2020-09-12"),true);
         System.out.println("Cheapest Hotel for 12/09/2020 : " + hotelKey);
         assertEquals(hotelKey.getHotelName(), "Bridgewood");
-        double totalAmount = hotelService.cheapestBestRatedHotelForGivenDateRange("2020-09-11", "2020-09-12");
+        double totalAmount = hotelService.cheapestBestRatedHotelForGivenDateRange("2020-09-11", "2020-09-12",true);
         assertEquals(totalAmount == 160.0, true);
     }
 
@@ -80,9 +80,9 @@ public class HotelReservationTest {
         hotelService.addHotel(new HotelKey("Lakewood", "REGULAR"), new Hotel(new HotelKey("Lakewood", "REGULAR"), 110.0, 90.0, 3));
         hotelService.addHotel(new HotelKey("Bridgewood", "REGULAR"), new Hotel(new HotelKey("Bridgewood", "REGULAR"), 150.0, 50.0, 4));
         hotelService.addHotel(new HotelKey("Ridgewood", "REGULAR"), new Hotel(new HotelKey("Ridgewood", "REGULAR"), 220.0, 150.0, 5));
-        assertTrue(hotelService.starRating("Lakewood") == 3);
-        assertTrue(hotelService.starRating("Bridgewood") == 4);
-        assertTrue(hotelService.starRating("Ridgewood") == 5);
+        assertTrue(hotelService.starRating(new HotelKey("Lakewood", "REGULAR")) == 3);
+        assertTrue(hotelService.starRating(new HotelKey("Bridgewood", "REGULAR")) == 4);
+        assertTrue(hotelService.starRating(new HotelKey("Ridgewood", "REGULAR")) == 5);
     }
 
     @Test
@@ -130,5 +130,39 @@ public class HotelReservationTest {
         assertEquals(hotelService.getHotel(hotelKey4),hotel4);
         assertEquals(hotelService.getHotel(hotelKey5),hotel5);
         assertEquals(hotelService.getHotel(hotelKey6),hotel6);
+    }
+
+    @Test
+    public void findBestRatedCheapestHotel_forRewardCustomers() throws Exception {
+        HotelService hotelService = new HotelService();
+
+        HotelKey hotelKey1= new HotelKey("Lakewood", "REGULAR");
+        Hotel hotel1 =new Hotel(hotelKey1, 110.0, 90.0, 3);
+        hotelService.addHotel(hotelKey1,hotel1);
+        HotelKey hotelKey2 = new HotelKey("Bridgewood", "REGULAR");
+        Hotel hotel2 = new Hotel(hotelKey2, 150.0, 50.0, 4);
+        hotelService.addHotel(hotelKey2,hotel2);
+        HotelKey hotelKey3 = new HotelKey("Ridgewood", "REGULAR");
+        Hotel hotel3 = new Hotel(hotelKey3, 220.0, 150.0, 5);
+        hotelService.addHotel(hotelKey3, hotel3);
+
+        HotelKey hotelKey4 = new HotelKey("Lakewood", "REWARD");
+        Hotel hotel4 = new Hotel(hotelKey4, 80.0, 80.0, 3);
+        hotelService.addHotel(hotelKey4, hotel4);
+        HotelKey hotelKey5 = new HotelKey("Bridgewood", "REWARD");
+        Hotel hotel5 = new Hotel(hotelKey5, 110.0, 50.0, 4);
+        hotelService.addHotel(hotelKey5, hotel5);
+        HotelKey hotelKey6 = new HotelKey("Ridgewood", "REWARD");
+        Hotel hotel6 = new Hotel(hotelKey6, 100.0, 40.0, 5);
+        hotelService.addHotel(hotelKey6, hotel6);
+        HotelKey key = hotelService.getCheapestBestRatedHotel(hotelService.getDayFromDate("2020-09-11"),false);
+        System.out.println("Cheapest Best rated hotel: "+key.getHotelName());
+        assertEquals(key.getHotelName(),"Ridgewood");
+        key = hotelService.getCheapestBestRatedHotel(hotelService.getDayFromDate("2020-09-12"),false);
+        System.out.println("Cheapest Best rated hotel: "+key.getHotelName());
+        assertEquals(key.getHotelName(),"Ridgewood");
+        Double totalSum= hotelService.cheapestBestRatedHotelForGivenDateRange("2020-09-11","2020-09-12",false);
+        System.out.println("Total Amount: "+totalSum);
+        assertTrue(totalSum.equals(140.0));
     }
 }
