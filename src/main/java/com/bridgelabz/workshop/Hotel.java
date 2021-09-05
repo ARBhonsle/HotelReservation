@@ -1,52 +1,69 @@
 package com.bridgelabz.workshop;
 
 public class Hotel {
-    String hotelName, customerType;
-    Double hotelWeekdayRates, hotelWeekendRates;
+    HotelKey key;
+    Double hotelRegularWeekdayRates, hotelRegularWeekendRates;
+    Double hotelRewardWeekdayRates, hotelRewardWeekendRates;
     Integer starRating;
 
-    public Hotel(String hotelName, String type, Double weekdayRate, Double weekendRate, Integer starRating) {
-        this.hotelName = hotelName;
-        this.customerType = type;
-        this.hotelWeekdayRates = weekdayRate;
-        this.hotelWeekendRates = weekendRate;
+    public Hotel(HotelKey key, Double weekdayRate, Double weekendRate, Integer starRating) {
+        this.key=key;
+        if(key.getCustomerType() == "REGULAR"){
+            this.hotelRegularWeekdayRates = weekdayRate;
+            this.hotelRegularWeekendRates = weekendRate;
+        } else if(key.getCustomerType() == "REWARD"){
+            this.hotelRewardWeekdayRates = weekdayRate;
+            this.hotelRewardWeekendRates = weekendRate;
+        }
         this.starRating = starRating;
     }
 
-    public void setHotelName(String hotelName) {
-        this.hotelName = hotelName;
+    public void setHotelRegularWeekdayRates(Double hotelRegularWeekdayRates) {
+        this.hotelRegularWeekdayRates = hotelRegularWeekdayRates;
     }
 
-    public void setCustomerType(String customerType) {
-        this.customerType = customerType;
+    public void setHotelRegularWeekendRates(Double hotelRegularWeekendRates) {
+        this.hotelRegularWeekendRates = hotelRegularWeekendRates;
     }
 
-    public void setHotelWeekdayRates(Double hotelWeekdayRates) {
-        this.hotelWeekdayRates = hotelWeekdayRates;
+    public void setHotelRewardWeekdayRates(Double hotelRewardWeekdayRates) {
+        this.hotelRewardWeekdayRates = hotelRewardWeekdayRates;
     }
 
-    public void setHotelWeekendRates(Double hotelWeekendRates) {
-        this.hotelWeekendRates = hotelWeekendRates;
+    public void setHotelRewardWeekendRates(Double hotelRewardWeekendRates) {
+        this.hotelRewardWeekendRates = hotelRewardWeekendRates;
     }
 
     public void setStarRating(Integer starRating) {
         this.starRating = starRating;
     }
 
+    public HotelKey getKey() {
+        return key;
+    }
+
     public String getHotelName() {
-        return hotelName;
+        return key.getHotelName();
     }
 
     public String getCustomerType() {
-        return customerType;
+        return key.getCustomerType();
     }
 
-    public Double getHotelWeekdayRates() {
-        return hotelWeekdayRates;
+    public Double getHotelRegularWeekdayRates() {
+        return hotelRegularWeekdayRates;
     }
 
-    public Double getHotelWeekendRates() {
-        return hotelWeekendRates;
+    public Double getHotelRegularWeekendRates() {
+        return hotelRegularWeekendRates;
+    }
+
+    public Double getHotelRewardWeekdayRates() {
+        return hotelRewardWeekdayRates;
+    }
+
+    public Double getHotelRewardWeekendRates() {
+        return hotelRewardWeekendRates;
     }
 
     public Integer getStarRating() {
